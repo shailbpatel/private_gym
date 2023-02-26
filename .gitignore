@@ -1,5 +1,5 @@
 private_gym/settings.py
-
+*.pyc
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
