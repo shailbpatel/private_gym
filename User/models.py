@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
-
 from django.utils import timezone
-import pytz
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -56,8 +54,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.CharField(unique=True, max_length=100, blank=True, null=True)
     phone = models.CharField(unique=True, max_length=20, blank=True, null=True)
     role = models.IntegerField(default=NON_MEMBER, choices=ROLE_CHOICES)
-    creation_date = models.DateTimeField(default=timezone.now())
-    updated_on = models.DateTimeField(default=timezone.now())
+    creation_date = models.DateTimeField(default=timezone.now)
+    updated_on = models.DateTimeField(default=timezone.now)
 
     USERNAME_FIELD = 'phone'
 
@@ -66,6 +64,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         db_table = 'user'
         unique_together = (('phone'),)
+
+    def has_module_perms(self, app_label):
+       return self.role == User.ADMIN
+    
+    def has_perm(self, perm, obj=None):
+       return self.role == User.ADMIN
 
     @property
     def is_staff(self):
