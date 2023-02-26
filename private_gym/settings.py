@@ -39,7 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'backend',
+    # Django app imports
+    'User',
+    'Gym',
+    'Business',
+    'Daily',
 ]
 
 MIDDLEWARE = [
