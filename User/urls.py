@@ -1,9 +1,13 @@
 from django.conf.urls import url
-from django.views.decorators.csrf import csrf_exempt
+from rest_framework.authtoken.views import obtain_auth_token
 
-from User.views import login_view, logout_view
+from User import views
+
 
 urlpatterns = [
-    url('login', csrf_exempt(login_view)),
-    url('logout', csrf_exempt(logout_view)),
+    url('login', views.login_view),
+    url('logout', views.logout_view),
+    url('token', obtain_auth_token),
+    url('details', views.get_user_details),
+    url('signup', views.signup),
 ]

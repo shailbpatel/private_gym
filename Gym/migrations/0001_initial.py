@@ -4,7 +4,6 @@ import django.core.validators
 from django.db import migrations, models
 import localflavor.us.models
 
-
 class Migration(migrations.Migration):
 
     initial = True

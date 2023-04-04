@@ -38,7 +38,7 @@ class UserManager(BaseUserManager):
         user.role = User.ADMIN
         user.save(using=self._db)
         return user
-    
+   
 
 class User(AbstractBaseUser, PermissionsMixin):
     ADMIN = 0
