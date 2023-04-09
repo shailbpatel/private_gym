@@ -14,13 +14,17 @@ def login_view(request):
     if user.is_authenticated():
         return JsonResponse({'success': True, 'data': UserSerializer(user).data, 'error': ''})
 
-    username = request.data.get('username')
+    username = request.data.get('phone')
     password = request.data.get('password')
     user = authenticate(request, username=username, password=password)
-    data = UserSerializer(user).data
-    if user is not None:
-        login(request, user)
-        return JsonResponse({'success': True, 'data': data, 'error': ''})
+    if user is None:
+        return JsonResponse({'success': False, 'data': {}, 'error': 'Incorrect username or password'})
+   
+    data = UserSerializer(user).data 
+    login(request, user)
+    token = Token.objects.get_or_create(user=user)
+    data["token"] = token[0].key
+    return JsonResponse({'success': True, 'data': data, 'error': ''})
 
 
 @api_view(['POST'])
