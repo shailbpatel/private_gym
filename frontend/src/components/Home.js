@@ -19,7 +19,7 @@ const Home = () => {
                 setContent(_content);
             }
         );
-        }, []);
+    }, []);
         
     return (
         <div className="container">

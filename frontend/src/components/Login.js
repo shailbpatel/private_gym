@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 
@@ -51,7 +51,7 @@ const Login = (props) => {
         if (checkBtn.current.context._errors.length === 0) {
             dispatch(login(phone, password))
             .then(() => {
-                navigate('/profile');
+                navigate('/');
                 // window.location.reload();
             })
             .catch(() => {
@@ -62,9 +62,11 @@ const Login = (props) => {
         }
     };
 
-    if (isLoggedIn) {
-        return <Navigate to="/profile" />;
-    }
+    useEffect(() => {
+        if (isLoggedIn) {
+            return <Navigate to="/" />;
+        }
+    }, [isLoggedIn]);
 
     return (
         <div className="col-md-12">

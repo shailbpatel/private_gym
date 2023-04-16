@@ -19,7 +19,6 @@ const login = ( phone, password ) => {
         password: password
     };
     return axios.post(USER_API_URL + "login", data).then((response) => {
-        console.log(response.data);
         if (!response.data.success) {
             throw new Error(response.data.message);
         }

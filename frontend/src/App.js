@@ -15,16 +15,14 @@ import { clearMessage } from "./actions/message";
 const App = (props) => {
 	const { user: currentUser } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
-
 	let location = useLocation();
-
 	useEffect(() => {
 		if(location.pathname === '/login' || location.pathname === '/register') {
 			dispatch(clearMessage()); // clear message when changing location
 		}
 	}, [dispatch, location]);
 
-	const logOut = (() => {
+	const logOut = useCallback(() => {
 		dispatch(logout());
 	}, [dispatch]);
 
@@ -56,8 +54,8 @@ const App = (props) => {
 							</Link>
 						</li>
 						<li className="nav-item">
-							<a href="/login" className="nav-link" onClick={() => logOut}>
-								LogOut
+							<a href="/login" className="nav-link" onClick={logOut()}>
+								Logout
 							</a>
 						</li>
 					</div>
@@ -74,7 +72,7 @@ const App = (props) => {
 							</Link>
 						</li>
 					</div>
-				)}
+				)}	
 			</nav>
 			<div className="container mt-3">
 				<Routes>
