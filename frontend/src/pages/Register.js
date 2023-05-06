@@ -16,7 +16,7 @@ function Register() {
  
     useEffect(()=>{
         if(localStorage.getItem('token') !== "" && localStorage.getItem('token') !== null){
-            navigate("/dashboard");
+            navigate("/");
         }
     },[]) // eslint-disable-line react-hooks/exhaustive-deps
  
@@ -36,7 +36,7 @@ function Register() {
             if(r.status === 200) {
                 setIsSubmitting(false)
                 localStorage.setItem('token', r.data.token)
-                navigate("/dashboard");
+                navigate("/");
             } else {
                 setIsSubmitting(false)
                 setValidationErrors(r.data.error)

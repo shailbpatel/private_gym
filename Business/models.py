@@ -26,7 +26,7 @@ class Class(models.Model):
 class Plan(models.Model):
     name = models.CharField(max_length=50, unique=True, blank=True, null=True)
     price = models.IntegerField()
-    duration = models.IntegerField(help_text="duration in days") # duration in days
+    duration = models.IntegerField(help_text="duration in days")
 
     def __str__(self):
         return self.name
@@ -37,15 +37,16 @@ class Membership(models.Model):
         'Business.Plan', on_delete=models.CASCADE)
     user = models.ForeignKey(
         'User.User', on_delete=models.CASCADE)
-    location = models.ForeignKey(
-        'Gym.Location', on_delete=models.CASCADE)
     start_date = models.DateField(default=datetime.date.today)
+    is_free_trial = models.BooleanField(default=False)
 
     def __str__(self):
         return self.plan + ' ' + self.user + ' ' + self.location
 
     def get_expiry_date(self):
         current_date = datetime.date.today()
+        if(self.is_free_trial):
+            return current_date + datetime.timedelta(days=7)
         return current_date + datetime.timedelta(days=self.plan.duration)
 
     @property

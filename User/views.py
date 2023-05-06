@@ -19,7 +19,6 @@ def login_view(request):
 
     username = request.data.get('phone')
     password = request.data.get('password')
-    import ipdb; ipdb.set_trace()
     user = authenticate(request=request, username=username, password=password)
     if user is None:
         return JsonResponse(status=status.HTTP_401_UNAUTHORIZED, data={'success': False, 'data': {}, 'error': 'Incorrect username or password'})

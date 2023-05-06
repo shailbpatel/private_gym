@@ -12,7 +12,7 @@ function Login() {
  
     useEffect(()=>{
         if(localStorage.getItem('token') !== "" && localStorage.getItem('token') !== null){
-            navigate("/dashboard");
+            navigate("/");
         }
     },[]) // eslint-disable-line react-hooks/exhaustive-deps
  
@@ -28,7 +28,7 @@ function Login() {
         .then((r) => {
             setIsSubmitting(false)
             localStorage.setItem('token', r.data.data.token)
-            navigate("/dashboard");
+            navigate("/");
         })
         .catch((e) => {
             setIsSubmitting(false)
