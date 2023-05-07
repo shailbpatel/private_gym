@@ -10,4 +10,6 @@ urlpatterns = [
     url('token', obtain_auth_token),
     url('details', views.get_user_details),
     url('signup', views.signup),
+    url('enroll', views.enroll_class),
+    url('classes', views.get_enrolled_classes),
 ]

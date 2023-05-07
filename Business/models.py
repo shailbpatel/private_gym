@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+from User.models import Enrolled
 
 # Create your models here.
 class Instructor(models.Model):
@@ -21,6 +22,10 @@ class Class(models.Model):
     
     def __str__(self):
         return self.name
+    
+    def spots_left(self):
+        enrolled_count = Enrolled.objects.filter(enrolled_class=self).count()
+        return max(self.strength - enrolled_count, 0)
 
 
 class Plan(models.Model):

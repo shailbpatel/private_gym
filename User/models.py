@@ -92,3 +92,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     def __str__(self):
         return self.get_full_name()
+    
+
+class Enrolled(models.Model):
+    user = models.ForeignKey('User.User', on_delete=models.CASCADE)
+    enrolled_class = models.ForeignKey('Business.Class', on_delete=models.CASCADE)

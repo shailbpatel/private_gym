@@ -4,11 +4,12 @@ from rest_framework.authtoken.models import Token
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 
-from User.serializers import UserSerializer
+from User.serializers import UserSerializer, EnrolledSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes, authentication_classes
 from User.backends import CustomTokenAuthentication
-from User.models import User
+from User.models import User, Enrolled
+from Business.models import Class
 
 
 @authentication_classes([CustomTokenAuthentication])
@@ -60,3 +61,37 @@ def signup(request):
         return JsonResponse(status=status.HTTP_200_OK, data={'success': True, 'error': '', 'token': token.key, 'data': UserSerializer(user).data})
     except Exception as e:
         return JsonResponse(status=status.HTTP_400_BAD_REQUEST, data={'success': False, 'error': str(e)})
+    
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def enroll_class(request):
+    user = request.user
+    class_id = request.data.get('class_id')
+
+    try:
+        enrolled_class = Class.objects.get(pk=class_id)
+    except Class.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Invalid class ID'})
+
+    if enrolled_class.spots_left() == 0:
+        return JsonResponse({'success': False, 'error': 'No spots left in this class'})
+
+    try:
+        Enrolled.objects.create(user=user, enrolled_class=enrolled_class)
+        enrolled_classes = Enrolled.objects.filter(user=user)
+        data = EnrolledSerializer(enrolled_classes, many=True).data
+        formatted_data = [i['enrolled_class'] for i in data]
+        return JsonResponse({'success': True, 'error': '', 'data': formatted_data})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e), 'data': []})
+    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_enrolled_classes(request):
+    user = request.user
+    enrolled_classes = Enrolled.objects.filter(user=user)
+    data = EnrolledSerializer(enrolled_classes, many=True).data
+    formatted_data = [i['enrolled_class'] for i in data]
+    return JsonResponse({'success': True, 'error': '', 'data': formatted_data})

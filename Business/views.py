@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 
 from Business.models import Plan, Class
 from Business.serializers import PlanSerializer, ClassSerializer
+from User.models import Enrolled
 
 
 def get_classes(request, location_id):

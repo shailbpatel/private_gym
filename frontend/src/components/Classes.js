@@ -13,6 +13,19 @@ function Classes(props) {
     return `${dayOfMonth} ${month} ${year}`;
   };
 
+  const enrollInClass = (cls) => {
+    const authToken = localStorage.getItem('token');
+    axios.post('users/enroll/', { "class_id": cls.id }, { headers: { Authorization: `Token ${authToken}` }})
+      .then((response) => {
+        if(response.data.success) {
+          props.enrolledClassesCallback(response.data.data)
+        }
+      })
+      .catch((error) => {
+        console.error('Failed to enroll in class', cls.name, error);
+      });
+  };
+
   const formatTime = (time) => {
     const date = new Date(time);
     const hours = date.getHours() % 12 || 12;
@@ -24,6 +37,8 @@ function Classes(props) {
 
   const renderClassCard = (cls) => {
     const instructorName = cls.instructor ? cls.instructor : 'No Instructor';
+    const isEnrolled = props.enrolledClasses.some((enrolledClass) => enrolledClass.id === cls.id);
+
     return (
       <div className="card mb-3">
         <div className="card-header" style={{ backgroundColor: '#007bff', color: 'white' }}>
@@ -34,10 +49,22 @@ function Classes(props) {
           <p className="card-text">
             <i className="bi bi-person instructor-name"></i> {instructorName}
           </p>
+          <p><i>spots left: {cls.spots_left}</i></p>
+          {isEnrolled ? (
+          <p className="text-success">Already enrolled</p>
+        ) : (
+          <button
+            className="btn btn-primary"
+            onClick={() => enrollInClass(cls)}
+          >
+            Enroll
+          </button>
+        )}
         </div>
       </div>
     );
   };
+  
 
   const renderClassColumn = (date) => {
     const classesOnDate = props.classes.filter((cls) => {
@@ -47,9 +74,11 @@ function Classes(props) {
         clsDate.getDate() === date.getDate();
     });
     return (
-      <div className="col">
+      <div className="col" key={date}>
         <h5>{formatDate(date)}</h5>
-        {classesOnDate.map((cls) => renderClassCard(cls))}
+        {classesOnDate.map((cls) => (
+        <div key={cls.id}>{renderClassCard(cls)}</div>
+      ))}
       </div>
     );
   };

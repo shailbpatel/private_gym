@@ -14,6 +14,7 @@ function Dashboard() {
     const [selectedLocation, setSelectedLocation] = useState(localStorage.getItem('selectedLocation') || "")
     const [plans, setPlans] = useState([])
     const [classes, setClasses] = useState([]);
+    const [enrolledClasses, setEnrolledClasses] = useState([]);
 
 
     useEffect(()=>{
@@ -23,6 +24,7 @@ function Dashboard() {
             getLocations();
             getPlans();
             getClasses(selectedLocation);
+            getEnrolledClasses();
     },[]) // eslint-disable-line react-hooks/exhaustive-deps
  
     const getUser = () => {
@@ -60,6 +62,20 @@ function Dashboard() {
         });
     }
 
+    const enrolledClassesCallback = (revisedClasses) => {
+        const updatedClasses = classes.map((cls) => {
+          const matchingEnrolledClass = revisedClasses.find((enrolledCls) => enrolledCls.id === cls.id);
+          if (matchingEnrolledClass) {
+            return matchingEnrolledClass;
+          } else {
+            return cls;
+          }
+        });
+        setClasses(updatedClasses);
+        setEnrolledClasses(revisedClasses);
+      };
+      
+
     const getPlans = () => {
         axios.get('/plans/')
         .then((r) => {
@@ -85,6 +101,19 @@ function Dashboard() {
             }            
             );}
     }
+
+    const getEnrolledClasses = () => {
+        axios.get('/users/classes', { headers:{Authorization: 'Token ' + localStorage.getItem('token')}})
+        .then((r) => {
+            if (r.data.success) {
+                setEnrolledClasses(r.data.data)
+            }
+        })
+        .catch((e) => {
+            console.log(e)
+        });
+    }
+
 
     const handleLocationChange = (e) => {
         const locationId = e.target.value;
@@ -156,7 +185,7 @@ function Dashboard() {
                     {selectedLocation ? (
                         <div className="container pb-5">
                             <div className="border p-3">
-                            <Classes classes={classes} />
+                            <Classes user={user} classes={classes} enrolledClasses={enrolledClasses} enrolledClassesCallback={enrolledClassesCallback}/>
                             </div>
                         </div>
                         ) : (
