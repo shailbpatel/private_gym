@@ -5,6 +5,13 @@ import Layout from "../components/Layout"
 import AboutUs from "../components/AboutUs"
 import Plans from "../components/Plans"
 import Classes from "../components/Classes"
+import CheckInOut from "../components/CheckInOut"
+import EnrollNewMember from "../components/EnrollNewMember"
+import SignupFreeTrial from "../components/SignupFreeTrial"
+import Analytics from "../components/Analytics"
+import UpcomingClasses from "../components/UpcomingClasses"
+import PastActivity from "../components/PastActivity"
+import LogActivity from "../components/LogActivity"
 
   
 function Dashboard() {
@@ -15,6 +22,7 @@ function Dashboard() {
     const [plans, setPlans] = useState([])
     const [classes, setClasses] = useState([]);
     const [enrolledClasses, setEnrolledClasses] = useState([]);
+    const [componentToDisplay, setComponentToDisplay] = useState('homepage');
 
 
     useEffect(()=>{
@@ -114,12 +122,16 @@ function Dashboard() {
         });
     }
 
-
     const handleLocationChange = (e) => {
         const locationId = e.target.value;
         setSelectedLocation(locationId);
         localStorage.setItem('selectedLocation', locationId);
     }
+
+    const handleSelectChange = (event) => {
+        setComponentToDisplay(event.target.value);
+    };
+
 
     return (
         <Layout>
@@ -169,29 +181,76 @@ function Dashboard() {
                         </div>
                     </nav>
                     <br />
-                    <h3 className="text-center mb-5">Welcome, {user.fname ? user.fname : "Guest"}!</h3>
-
-
-                    <div id="about">
-                        <AboutUs id="about"/>
-                    </div>
+                    <h3 className="text-center">Welcome, {user.fname ? user.fname : "Guest"}!</h3>
                     
-                    <div id="plans">
-                        <Plans plans={plans}/>
+                    <div className="text-center">
+                        What would you like to do:&nbsp;
+                        <select className="border" value={componentToDisplay} onChange={handleSelectChange}>
+                            <option value="homepage">Homepage</option>
+                            {user.role === "admin" &&
+                            <>
+                                <option value="checkInOut">Check-in/Check-out</option>
+                                <option value="enrollNewMember">Enroll new member</option>
+                                <option value="signupFreeTrial">Signup for free trial</option>
+                                <option value="analytics">View analytics</option>
+                            </>
+                            }
+                            {user.role === "member" &&
+                            <>
+                                <option value="upcomingClasses">View upcoming classes</option>
+                                <option value="pastActivity">Past Activity</option>
+                                <option value="logActivity">Log Activity</option>
+                            </>
+                            }
+                        </select>
                     </div>
-                    
-                    <div id="classes">
-                    <h2 className="text-center my-5">Upcoming Classes</h2>
-                    {selectedLocation ? (
-                        <div className="container pb-5">
-                            <div className="border p-3">
-                            <Classes user={user} classes={classes} enrolledClasses={enrolledClasses} enrolledClassesCallback={enrolledClassesCallback}/>
+
+                    <br />
+                    {componentToDisplay === "homepage" && 
+                        <>
+                            <div id="about">
+                                <AboutUs id="about"/>
                             </div>
-                        </div>
-                        ) : (
-                        <h4 className="text-center my-5" style={{ fontFamily: 'Arial', fontSize: '20px', color: 'red' }}><i>Please select a location to view class schedule</i></h4>
-                        )}
-                    </div>
+                            
+                            <div id="plans">
+                                <Plans plans={plans}/>
+                            </div>
+                            
+                            <div id="classes">
+                            <h2 className="text-center my-5">Upcoming Classes</h2>
+                            {selectedLocation ? (
+                                <div className="container pb-5">
+                                    <div className="border p-3">
+                                    <Classes user={user} classes={classes} enrolledClasses={enrolledClasses} enrolledClassesCallback={enrolledClassesCallback}/>
+                                    </div>
+                                </div>
+                                ) : (
+                                <h4 className="text-center my-5" style={{ fontFamily: 'Arial', fontSize: '20px', color: 'red' }}><i>Please select a location to view class schedule</i></h4>
+                                )}
+                            </div>
+                        </>
+                    }
+                    {componentToDisplay === "checkInOut" &&
+                        <CheckInOut />
+                    }
+                    {componentToDisplay === "enrollNewMember" &&
+                        <EnrollNewMember />
+                    }
+                    {componentToDisplay === "signupFreeTrial" &&
+                        <SignupFreeTrial />
+                    }
+                    {componentToDisplay === "analytics" &&
+                        <Analytics />
+                    }
+                    {componentToDisplay === "upcomingClasses" &&
+                        <UpcomingClasses />
+                    }
+                    {componentToDisplay === "pastActivity" &&
+                        <PastActivity />
+                    }
+                    {componentToDisplay === "logActivity" &&
+                        <LogActivity />
+                    }
                 </div>
             </div>
         </Layout>
