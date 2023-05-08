@@ -18,7 +18,6 @@ class Location(models.Model):
 
 class Equipment(models.Model):
     name = models.CharField(max_length=50, null=True, blank=True)
-    location = models.ForeignKey('Gym.Location', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name + ' ' + self.location

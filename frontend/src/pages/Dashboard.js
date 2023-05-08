@@ -190,8 +190,7 @@ function Dashboard() {
                             {user.role === "admin" &&
                             <>
                                 <option value="checkInOut">Check-in/Check-out</option>
-                                <option value="enrollNewMember">Enroll new member</option>
-                                <option value="signupFreeTrial">Signup for free trial</option>
+                                <option value="enrollNewMember">Enroll as member</option>
                                 <option value="analytics">View analytics</option>
                             </>
                             }
@@ -230,25 +229,25 @@ function Dashboard() {
                             </div>
                         </>
                     }
-                    {componentToDisplay === "checkInOut" &&
+                    {user.id && componentToDisplay === "checkInOut" &&
                         <CheckInOut />
                     }
-                    {componentToDisplay === "enrollNewMember" &&
-                        <EnrollNewMember />
+                    {user.id && componentToDisplay === "enrollNewMember" &&
+                        <EnrollNewMember plans={plans}/>
                     }
-                    {componentToDisplay === "signupFreeTrial" &&
+                    {user.id && componentToDisplay === "signupFreeTrial" &&
                         <SignupFreeTrial />
                     }
-                    {componentToDisplay === "analytics" &&
+                    {user.id && componentToDisplay === "analytics" &&
                         <Analytics />
                     }
-                    {componentToDisplay === "upcomingClasses" &&
+                    {user.id && componentToDisplay === "upcomingClasses" &&
                         <UpcomingClasses />
                     }
-                    {componentToDisplay === "pastActivity" &&
+                    {user.id && componentToDisplay === "pastActivity" &&
                         <PastActivity />
                     }
-                    {componentToDisplay === "logActivity" &&
+                    {user.id && componentToDisplay === "logActivity" &&
                         <LogActivity />
                     }
                 </div>

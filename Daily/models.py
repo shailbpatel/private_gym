@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils import timezone
-from django.forms import ModelChoiceField
 from Gym.models import Equipment
 
 # Create your models here.

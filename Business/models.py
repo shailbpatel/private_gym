@@ -43,15 +43,12 @@ class Membership(models.Model):
     user = models.ForeignKey(
         'User.User', on_delete=models.CASCADE)
     start_date = models.DateField(default=datetime.date.today)
-    is_free_trial = models.BooleanField(default=False)
 
     def __str__(self):
         return self.plan + ' ' + self.user + ' ' + self.location
 
     def get_expiry_date(self):
         current_date = datetime.date.today()
-        if(self.is_free_trial):
-            return current_date + datetime.timedelta(days=7)
         return current_date + datetime.timedelta(days=self.plan.duration)
 
     @property

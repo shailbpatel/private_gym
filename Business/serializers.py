@@ -6,7 +6,7 @@ from rest_framework import serializers
 class PlanSerializer(ModelSerializer):
     class Meta:
         model = Plan
-        exclude = ('id',)
+        fields = '__all__'
 
 class ClassSerializer(ModelSerializer):
     instructor = serializers.CharField(source='instructor.name')

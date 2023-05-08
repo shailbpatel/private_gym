@@ -51,9 +51,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     fname = models.CharField(max_length=100, blank=True, null=True, db_column='first_name')
     lname = models.CharField(max_length=100, blank=True, null=True, db_column='last_name')
-    email = models.CharField(unique=True, max_length=100, blank=True, null=True)
-    phone = models.CharField(unique=True, max_length=20, blank=True, null=True)
+    email = models.CharField(max_length=100, blank=True, null=True)
+    phone = models.CharField(unique=True, max_length=20)
     role = models.IntegerField(default=NON_MEMBER, choices=ROLE_CHOICES)
+    expiry_date = models.DateTimeField(blank=True, null=True)
     creation_date = models.DateTimeField(default=timezone.now)
     updated_on = models.DateTimeField(default=timezone.now)
 

@@ -15,7 +15,7 @@ function Classes(props) {
 
   const enrollInClass = (cls) => {
     const authToken = localStorage.getItem('token');
-    axios.post('users/enroll/', { "class_id": cls.id }, { headers: { Authorization: `Token ${authToken}` }})
+    axios.post('users/enroll_class/', { "class_id": cls.id }, { headers: { Authorization: `Token ${authToken}` }})
       .then((response) => {
         if(response.data.success) {
           props.enrolledClassesCallback(response.data.data)
@@ -52,13 +52,18 @@ function Classes(props) {
           <p><i>spots left: {cls.spots_left}</i></p>
           {isEnrolled ? (
           <p className="text-success">Already enrolled</p>
-        ) : (
+        ) : (<>
+          {props.user && props.user.role === "member" ? (
+          <>
           <button
             className="btn btn-primary"
             onClick={() => enrollInClass(cls)}
           >
             Enroll
           </button>
+          </>) : (<></>)
+          }
+          </>
         )}
         </div>
       </div>

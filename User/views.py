@@ -3,13 +3,14 @@ from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
+from django.utils.timezone import now, timedelta
 
 from User.serializers import UserSerializer, EnrolledSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes, authentication_classes
 from User.backends import CustomTokenAuthentication
 from User.models import User, Enrolled
-from Business.models import Class
+from Business.models import Class, Plan
 
 
 @authentication_classes([CustomTokenAuthentication])
@@ -95,3 +96,26 @@ def get_enrolled_classes(request):
     data = EnrolledSerializer(enrolled_classes, many=True).data
     formatted_data = [i['enrolled_class'] for i in data]
     return JsonResponse({'success': True, 'error': '', 'data': formatted_data})
+
+
+@api_view(['POST'])
+def enroll_member(request):
+    phone = request.data.get('phone', None)
+    plan_id = request.data.get('plan_id', None)
+    if phone is None:
+        return JsonResponse({'success': False, 'error': 'Phone number is required.'})
+    try:
+        user = User.objects.get(phone=phone)
+        if(user.role == 0):
+            return JsonResponse({'success': False, 'error': 'Cannot convert admin to member.'})
+        user.role = 1
+        plan = Plan.objects.get(pk=plan_id)
+        user.expiry_date = now() + timedelta(days=plan.duration)
+        user.save()
+        return JsonResponse({'success': True, 'error': ''}, status=status.HTTP_200_OK)
+    except User.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Create a non-member account first.'}, status=status.HTTP_200_OK)
+    except Plan.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Select a valid Membership Plan.'}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
