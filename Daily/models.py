@@ -19,12 +19,12 @@ class Entry(models.Model):
 
     @property
     def duration(self):
-        if not self.has_checked_out():
+        if not self.has_checked_out:
             return None
         seconds = (self.checkout_time - self.checkin_time).total_seconds()
-        hours = seconds // 3600
-        minutes = (seconds % 3600) // 60
-        return '{} hour{}, {} minutes{}'.format(hours, 's' if hours != 1 else '',
+        hours = int(seconds // 3600)
+        minutes = int((seconds % 3600) // 60)
+        return '{} hour{}, {} minute{}'.format(hours, 's' if hours != 1 else '',
                                                 minutes, 's' if minutes != 1 else '')
     
 

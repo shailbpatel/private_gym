@@ -230,7 +230,7 @@ function Dashboard() {
                         </>
                     }
                     {user.id && componentToDisplay === "checkInOut" &&
-                        <CheckInOut />
+                        <CheckInOut locationId={selectedLocation} />
                     }
                     {user.id && componentToDisplay === "enrollNewMember" &&
                         <EnrollNewMember plans={plans}/>

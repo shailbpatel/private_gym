@@ -20,4 +20,4 @@ class Equipment(models.Model):
     name = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
-        return self.name + ' ' + self.location
+        return self.name
