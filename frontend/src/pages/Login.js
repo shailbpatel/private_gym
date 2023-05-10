@@ -41,6 +41,7 @@ function Login() {
      
     return (
         <Layout>
+            <div className="login-card">
             <div className="row justify-content-md-center mt-5">
                 <div className="col-4">
                     <div className="card">
@@ -84,14 +85,14 @@ function Login() {
                                     <button 
                                         disabled={isSubmitting}
                                         type="submit"
-                                        className="btn btn-primary btn-block">Login</button>
+                                        className="btn btn-warning btn-block">Login</button>
                                     <p className="text-center">Don't have account? <Link to="/register">Register here</Link></p>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div></div>
         </Layout>
     );
 }

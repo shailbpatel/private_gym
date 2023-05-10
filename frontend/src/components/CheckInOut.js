@@ -75,14 +75,14 @@ function CheckInOut(props) {
         </div>
       }
       <form>
-        <div className="form-group">
+        <div className="form-group" style={{width: 400 + "px"}}>
           <label htmlFor="phoneInput">Phone:</label>
           <input type="tel" className="form-control" id="phoneInput" placeholder="Enter phone" value={phone} onChange={e => setPhone(e.target.value)} />
         </div>
         <p></p>
-        <button type="submit" className="btn btn-primary" onClick={handleCheckIn}>Check In</button>
+        <button type="submit" className="btn btn-warning" onClick={handleCheckIn}>Check In</button>
         &nbsp;
-        <button type="submit" className="btn btn-primary" onClick={handleCheckOut}>Check Out</button>
+        <button type="submit" className="btn btn-outline-warning" onClick={handleCheckOut}>Check Out</button>
       </form>
     </div>
   );

@@ -48,6 +48,7 @@ function Dashboard() {
     }
  
     const logoutAction = () => {
+        console.log('localStorage');
         axios.post('users/logout',{}, { headers:{Authorization: 'Token ' + localStorage.getItem('token')}})
         .then((r) => {
             localStorage.setItem('token', "")
@@ -137,26 +138,10 @@ function Dashboard() {
         <Layout>
            <div className="row justify-content-md-center">
                 <div className="col-12">
-                    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <nav className="navbar navbar-expand-lg navbar-dark fixed-top">
                         <div className="container-fluid">
                             <a className="navbar-brand" href="#">Health Management System</a> 
                             <div className="d-flex">
-                                <select
-                                    className="form-select me-2"
-                                    aria-label="Default select example"
-                                    value={selectedLocation}
-                                    onChange={(e) => {
-                                        handleLocationChange(e);
-                                        getClasses(e.target.value);
-                                    }}
-                                >
-                                    <option key="default" value="">Select location</option>
-                                    {locations && locations.map((loc) => {
-                                        return (
-                                            <option key={loc.id} value={loc.id}>{loc.name}</option>
-                                        );
-                                    })}
-                                </select>
                                 <ul className="navbar-nav mb-2 mb-lg-0">
                                     <li className="nav-item"><a className="nav-link" href="#about">About</a></li>
                                     <li className="nav-item"><a className="nav-link" href="#plans">Plans</a></li>
@@ -169,9 +154,9 @@ function Dashboard() {
                                         Classes</a>
                                         </li>
                                         <li className="nav-item">
-                                            {user.fname ?
-                                                <a onClick={()=>logoutAction()} className="nav-link" aria-current="page" href="#">Logout</a> :
-                                                <a className="nav-link" aria-current="page" href="/login">Login</a>
+                                            {user.id ?
+                                                <button type="button" className="btn btn-outline-warning" onClick={()=> {logoutAction(); window.location.href = "#" }} aria-current="page">Logout</button> :
+                                                <button type="button" className="btn btn-warning" aria-current="page" onClick={() => window.location.href = "/login"}>Login</button>
                                             }
                                             </li>
 
@@ -181,9 +166,9 @@ function Dashboard() {
                         </div>
                     </nav>
                     <br />
-                    <h3 className="text-center">Welcome, {user.fname ? user.fname : "Guest"}!</h3>
+                    <h3 className="text-center welcome-text">Welcome, {user.fname ? user.fname : "Guest"}!</h3>
                     
-                    <div className="text-center">
+                    <div className="text-center" style={{height: 100 + "px"}}>
                         What would you like to do:&nbsp;
                         <select className="border" value={componentToDisplay} onChange={handleSelectChange}>
                             <option value="homepage">Homepage</option>
@@ -207,7 +192,7 @@ function Dashboard() {
                     <br />
                     {componentToDisplay === "homepage" && 
                         <>
-                            <div id="about">
+                            <div id="about" style={{height: 280 + "px"}}>
                                 <AboutUs id="about"/>
                             </div>
                             
@@ -217,8 +202,26 @@ function Dashboard() {
                             
                             <div id="classes">
                             <h2 className="text-center my-5">Upcoming Classes</h2>
+                            <div className="container">
+                            <div className="text-center">
+                            <select
+                                    className="form-select me-2 form-select-sm"
+                                    aria-label="Default select example"
+                                    value={selectedLocation}
+                                    onChange={(e) => {
+                                        handleLocationChange(e);
+                                        getClasses(e.target.value);
+                                    }}
+                                >
+                                    <option key="default" value="">Select location</option>
+                                    {locations && locations.map((loc) => {
+                                        return (
+                                            <option key={loc.id} value={loc.id}>{loc.name}</option>
+                                        );
+                                    })}
+                                </select></div>
                             {selectedLocation ? (
-                                <div className="container pb-5">
+                                <div className="pb-5">
                                     <div className="border p-3">
                                     <Classes user={user} classes={classes} enrolledClasses={enrolledClasses} enrolledClassesCallback={enrolledClassesCallback}/>
                                     </div>
@@ -226,7 +229,7 @@ function Dashboard() {
                                 ) : (
                                 <h4 className="text-center my-5" style={{ fontFamily: 'Arial', fontSize: '20px', color: 'red' }}><i>Please select a location to view class schedule</i></h4>
                                 )}
-                            </div>
+                            </div></div>
                         </>
                     }
                     {user.id && componentToDisplay === "checkInOut" &&

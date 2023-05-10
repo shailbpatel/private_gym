@@ -41,22 +41,23 @@ function Classes(props) {
 
     return (
       <div className="card mb-3">
-        <div className="card-header" style={{ backgroundColor: '#007bff', color: 'white' }}>
-          {formatTime(cls.time)}
+        <div className="card-header" style={{ backgroundColor: '#443C68', color: 'white' }}>
+        {cls.name}
         </div>
         <div className="card-body">
-          <h5 className="card-title">{cls.name}</h5>
+          <h5 className="card-title">{formatTime(cls.time)}</h5>
           <p className="card-text">
             <i className="bi bi-person instructor-name"></i> {instructorName}
           </p>
           <p><i>spots left: {cls.spots_left}</i></p>
           {isEnrolled ? (
-          <p className="text-success">Already enrolled</p>
+          <h6 className="text-success">Already enrolled</h6>
         ) : (<>
           {props.user && props.user.role === "member" ? (
           <>
           <button
-            className="btn btn-primary"
+            className="btn"
+            style={{ backgroundColor: '#443C68', color: 'white' }}
             onClick={() => enrollInClass(cls)}
           >
             Enroll
@@ -82,7 +83,7 @@ function Classes(props) {
       <div className="col" key={date}>
         <h5>{formatDate(date)}</h5>
         {classesOnDate.map((cls) => (
-        <div key={cls.id}>{renderClassCard(cls)}</div>
+        <div key={cls.id} style={{width: 150 + "px"}}>{renderClassCard(cls)}</div>
       ))}
       </div>
     );
