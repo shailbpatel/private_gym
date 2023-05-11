@@ -7,13 +7,12 @@ import Plans from "../components/Plans"
 import Classes from "../components/Classes"
 import CheckInOut from "../components/CheckInOut"
 import EnrollNewMember from "../components/EnrollNewMember"
-import SignupFreeTrial from "../components/SignupFreeTrial"
 import Analytics from "../components/Analytics"
 import UpcomingClasses from "../components/UpcomingClasses"
 import PastActivity from "../components/PastActivity"
 import LogActivity from "../components/LogActivity"
 
-  
+
 function Dashboard() {
     const navigate = useNavigate();
     const [user, setUser] = useState({})
@@ -238,17 +237,14 @@ function Dashboard() {
                     {user.id && componentToDisplay === "enrollNewMember" &&
                         <EnrollNewMember plans={plans}/>
                     }
-                    {user.id && componentToDisplay === "signupFreeTrial" &&
-                        <SignupFreeTrial />
-                    }
                     {user.id && componentToDisplay === "analytics" &&
                         <Analytics />
                     }
                     {user.id && componentToDisplay === "upcomingClasses" &&
-                        <UpcomingClasses />
+                        <UpcomingClasses enrolledClasses={enrolledClasses} />
                     }
                     {user.id && componentToDisplay === "pastActivity" &&
-                        <PastActivity />
+                        <PastActivity enrolledClasses={enrolledClasses} />
                     }
                     {user.id && componentToDisplay === "logActivity" &&
                         <LogActivity />
