@@ -10,7 +10,6 @@ function Register() {
     const [last_name, setLastName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [confirmPassword, setConfirmPassword] = useState("")
     const [validationErrors, setValidationErrors] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
  
@@ -29,7 +28,6 @@ function Register() {
             last_name: last_name,
             email:email,
             password:password,
-            password_confirmation:confirmPassword
         }
         axios.post('/users/signup', payload)
         .then((r) => {
@@ -145,20 +143,6 @@ function Register() {
                                             </small >
                                         </div>
                                     }
-                                </div>
-                                <div className="mb-3">
-                                    <label 
-                                        htmlFor="confirm_password"
-                                        className="form-label">Confirm Password
-                                    </label>
-                                    <input 
-                                        type="password"
-                                        className="form-control"
-                                        id="confirm_password"
-                                        name="confirm_password"
-                                        value={confirmPassword}
-                                        onChange={(e)=>setConfirmPassword(e.target.value)}
-                                    />
                                 </div>
                                 <div className="d-grid gap-2">
                                     <button 

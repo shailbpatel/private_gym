@@ -50,8 +50,8 @@ function Dashboard() {
         console.log('localStorage');
         axios.post('users/logout',{}, { headers:{Authorization: 'Token ' + localStorage.getItem('token')}})
         .then((r) => {
-            localStorage.setItem('token', "")
-            setUser({})
+            localStorage.removeItem('token');
+            setUser({});
         })
         .catch((e) => {
             console.log(e)
