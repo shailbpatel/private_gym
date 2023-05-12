@@ -13,4 +13,5 @@ urlpatterns = [
     url('enroll_class', views.enroll_class),
     url('classes', views.get_enrolled_classes),
     url('enroll_member', views.enroll_member),
+    url('past_activity', views.get_past_activity),
 ]

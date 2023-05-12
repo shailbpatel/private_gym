@@ -11,6 +11,7 @@ from rest_framework.decorators import permission_classes, authentication_classes
 from User.backends import CustomTokenAuthentication
 from User.models import User, Enrolled
 from Business.models import Class, Plan
+from Daily.models import GymUsage, Entry
 
 
 @authentication_classes([CustomTokenAuthentication])
@@ -119,3 +120,41 @@ def enroll_member(request):
         return JsonResponse({'success': False, 'error': 'Select a valid Membership Plan.'}, status=status.HTTP_200_OK)
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)})
+    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_past_activity(request):
+    user = request.user
+    all_data = []
+    enrolled_classes = Enrolled.objects.filter(user=user)
+
+    for enrolled_class in enrolled_classes:
+        all_data.append({
+            'name': enrolled_class.enrolled_class.name,
+            'time': enrolled_class.enrolled_class.time,
+            'location': enrolled_class.enrolled_class.location.name
+        })
+
+    entry_data = Entry.objects.filter(user=user)
+    for entry in entry_data:
+        temp_data = {
+            'name': "Check-in",
+            'time': entry.checkin_time,
+            'location': entry.location.name,
+            'usage': [],
+            'checkout': ''
+        }
+
+        usage_data = GymUsage.objects.filter(entry=entry_data)
+        for usage in usage_data:
+            temp_data['usage'].append({
+                'name': usage.equipment.name,
+            })
+
+        if entry.has_checked_out:
+            temp_data['checkout'] = entry.checkout_time
+    
+        all_data.append(temp_data)
+    all_data = sorted(all_data, key=lambda k: k['time'], reverse=True)
+    return JsonResponse({'success': True, 'error': '', 'data': all_data})

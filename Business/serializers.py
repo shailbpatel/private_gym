@@ -10,7 +10,8 @@ class PlanSerializer(ModelSerializer):
 
 class ClassSerializer(ModelSerializer):
     instructor = serializers.CharField(source='instructor.name')
+    location = serializers.CharField(source='location.name')
 
     class Meta:
         model = Class
-        fields = ('id', 'name', 'strength', 'time', 'instructor', 'spots_left',)
+        fields = ('id', 'name', 'strength', 'time', 'instructor', 'spots_left', 'location')
