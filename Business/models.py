@@ -26,6 +26,10 @@ class Class(models.Model):
     def spots_left(self):
         enrolled_count = Enrolled.objects.filter(enrolled_class=self).count()
         return max(self.strength - enrolled_count, 0)
+    
+    def spots_filled(self):
+        enrolled_count = Enrolled.objects.filter(enrolled_class=self).count()
+        return enrolled_count
 
 
 class Plan(models.Model):

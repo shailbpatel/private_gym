@@ -24,8 +24,7 @@ class Entry(models.Model):
         seconds = (self.checkout_time - self.checkin_time).total_seconds()
         hours = int(seconds // 3600)
         minutes = int((seconds % 3600) // 60)
-        return '{} hour{}, {} minute{}'.format(hours, 's' if hours != 1 else '',
-                                                minutes, 's' if minutes != 1 else '')
+        return seconds
     
 
 class GymUsage(models.Model):

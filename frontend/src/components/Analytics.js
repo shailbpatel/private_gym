@@ -1,5 +1,7 @@
 import {React, useEffect } from 'react'
-import LineChart from './lineChart';
+import CheckinChart from './CheckinChart';
+import HoursInGym from './HoursInGym';
+import EnrollmentChart from './EnrollmentChart';
 
    
 function Analytics(props) {
@@ -10,10 +12,11 @@ function Analytics(props) {
       }));
 
     return(
-        <>
-        <div className="container">Analytics component</div>
-        <LineChart gymList={convertedData} locationId={props.locationId}/>
-        </>
+        <div className="d-flex">
+        <CheckinChart gymList={convertedData} locationId={props.locationId}/>
+        <HoursInGym gymList={convertedData} locationId={props.locationId}/>
+        <EnrollmentChart gymList={convertedData} locationId={props.locationId}/>
+        </div>
     )
 }
    

@@ -65,7 +65,7 @@ const selectOption = [
 const dataByDay = { labels: [], datasets: [] };
 
 
-class LineChart extends Component {
+class HoursInGym extends Component {
     // static contextType = AuthContext
     constructor(props) {
         super(props);
@@ -77,7 +77,7 @@ class LineChart extends Component {
             chartData: dataByDay,
             gymList: props.gymList,
             locationId: props.locationId,
-            dateRange:['1900-12-12','2100-12-12'],
+            dateRange:['2023-01-01','2023-05-12'],
             options: {
                 scales: {
                     yAxes: [
@@ -104,7 +104,7 @@ class LineChart extends Component {
         // console.log(this.state.gymId);
         // console.log("here");
         // console.log(this.state.gymList);
-        axios.post('/get_checkins', { 
+        axios.post('/get_hours', { 
             location_id: this.state.locationId, 
             start_time: this.state.dateRange[0], 
             end_time: this.state.dateRange[1] 
@@ -157,11 +157,13 @@ class LineChart extends Component {
         this.componentDidMount();
     }
 
-    handleDateChange = (value) =>{
-        console.log("here2");
-        console.log(value);
-        this.state.dateRange= value;
-        console.log(this.state.dateRange);
+    handleStartDateChange = (event) =>{
+        this.state.dateRange[0] = event.target.value;
+        this.componentDidMount();
+    }
+
+    handleEndDateChange = (event) => {
+        this.state.dateRange[1] = event.target.value;
         this.componentDidMount();
     }
 
@@ -249,8 +251,8 @@ class LineChart extends Component {
 
     render() {
         return (<>
-
             <Container style={{ width: "620px" , margin:"20px"}}>
+            <h4 className='text-center'>Hours spend in Gym</h4>
                 <Form>
                     <div>
                         <FlexboxGrid justify='space-around'>
@@ -287,14 +289,16 @@ class LineChart extends Component {
                             </FlexboxGrid.Item>
                             <FlexboxGrid.Item>
                                 <div>
-                                    <label>Date Range : </label>
-                                    <DateRangePicker placeholder="Select Date Range"  onChange={this.handleDateChange}/>
+                                    <label>Date Range :   &nbsp;</label>
+                                    
+                                        <input type="date" id="start-date" name="start-date" value={this.state.dateRange[0]} onChange={this.handleStartDateChange}/>
+                                        &nbsp;<input type="date" id="end-date" name="end-date" value={this.state.dateRange[1]} onChange={this.handleEndDateChange} />
                                 </div>
                             </FlexboxGrid.Item>
                         </FlexboxGrid>
 
                         {this.state.chartData.datasets && this.state.chartData.datasets.length > 0 ? (
-                            <Bar data={this.state.chartData} options={this.state.options} />
+                            <Line data={this.state.chartData} options={this.state.options} />
                         ) : (
                             <p>No data to display. Change dates to see.</p>
                         )}
@@ -307,4 +311,4 @@ class LineChart extends Component {
     }
 }
 
-export default LineChart;
+export default HoursInGym;

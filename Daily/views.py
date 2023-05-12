@@ -75,7 +75,101 @@ def log_activity(request):
 
 
 @api_view(['POST'])
+def hours_count(request):
+    def byDay(data):
+        count = 24*[0]
+        for entry in data:
+            count[entry.checkin_time.hour] += entry.duration//3600
+        return count
+
+    def byWeekday(data):
+        count = 7*[0]
+        for entry in data:
+            count[entry.checkin_time.weekday()] += entry.duration//3600
+        return count[:5]
+
+
+    def byWeekend(data):
+        count = 7*[0]
+        for entry in data:
+            count[entry.checkin_time.weekday()] += entry.duration//3600
+        return count[5:]
+    
+    location_id = request.data.get('location_id')
+    start_date = request.data.get('start_time')
+    start_date = datetime.strptime(start_date, '%Y-%m-%d')
+    end_date = request.data.get('end_time')
+    end_date = datetime.strptime(end_date, '%Y-%m-%d')
+
+    if location_id:
+        location = get_object_or_404(Location, pk=location_id)
+    else:
+        location = None
+
+    # Count check-ins by each hour
+    entries = Entry.objects.filter(
+        location=location,
+        checkin_time__gte=start_date,
+    )
+    entries = entries.filter(checkout_time__isnull=False)
+    response = {}
+    response['dataByDay'] = {}
+    day_labels = [str(i) for i in range(0, 24)]
+    response['dataByDay']['labels'] = day_labels
+    datasets = [{
+        'label': 'Gym Hours by Hour',
+        'data': byDay(entries),
+        'borderColor': '#BC544b',
+    }]
+    response['dataByDay']['datasets'] = datasets
+    
+    response['dataByWeekday'] = {}
+    weekday_labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+    response['dataByWeekday']['labels'] = weekday_labels
+    datasets = [{
+        'label': 'Gym Hours by Weekday',
+        'data': byWeekday(entries),
+        'borderColor': '#BC544b',
+    }]
+    response['dataByWeekday']['datasets'] = datasets
+    
+    response['dataByWeekend'] = {}
+    weekend_labels = ['Saturday', 'Sunday']
+    response['dataByWeekend']['labels'] = weekend_labels
+    datasets = [{
+        'label': 'Gym Hours by Weekend',
+        'data': byWeekend(entries),
+        'borderColor': '#BC544b',
+    }]
+    response['dataByWeekend']['datasets'] = datasets
+
+    return JsonResponse(
+        response
+    )
+
+
+@api_view(['POST'])
 def check_in_counts(request):
+
+    def byDay(data):
+        count = 24*[0]
+        for entry in data:
+            count[entry.checkin_time.hour] += 1
+        return count
+
+    def byWeekday(data):
+        count = 7*[0]
+        for entry in data:
+            count[entry.checkin_time.weekday()] += 1
+        return count[:5]
+
+
+    def byWeekend(data):
+        count = 7*[0]
+        for entry in data:
+            count[entry.checkin_time.weekday()] += 1
+        return count[5:]
+
     location_id = request.data.get('location_id')
     start_date = request.data.get('start_time')
     start_date = datetime.strptime(start_date, '%Y-%m-%d')
@@ -126,23 +220,3 @@ def check_in_counts(request):
     return JsonResponse(
         response
     )
-
-
-def byDay(data):
-    count = 24*[0]
-    for entry in data:
-        count[entry.checkin_time.hour] += 1
-    return count
-
-def byWeekday(data):
-    count = 7*[0]
-    for entry in data:
-        count[entry.checkin_time.weekday()] += 1
-    return count[:5]
-
-
-def byWeekend(data):
-    count = 7*[0]
-    for entry in data:
-        count[entry.checkin_time.weekday()] += 1
-    return count[5:]
