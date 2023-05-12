@@ -22,6 +22,7 @@ function Dashboard() {
     const [classes, setClasses] = useState([]);
     const [enrolledClasses, setEnrolledClasses] = useState([]);
     const [componentToDisplay, setComponentToDisplay] = useState('homepage');
+    const [pastActivity, setPastActivity] = useState([]);
 
 
     useEffect(()=>{
@@ -32,8 +33,19 @@ function Dashboard() {
             getPlans();
             getClasses(selectedLocation);
             getEnrolledClasses();
+            getPastActivity();
     },[]) // eslint-disable-line react-hooks/exhaustive-deps
  
+    const getPastActivity = () => {
+        axios.get('users/past_activity', { headers:{Authorization: 'Token ' + localStorage.getItem('token')}})
+        .then((res) => {
+            const data = res.data;
+            if(res.data.success) {
+                setPastActivity(data.data);
+            }
+        })
+    };
+
     const getUser = () => {
         axios.get('users/details', { headers:{Authorization: 'Token ' + localStorage.getItem('token')}})
         .then((r) => {
@@ -238,13 +250,13 @@ function Dashboard() {
                         <EnrollNewMember plans={plans}/>
                     }
                     {user.id && componentToDisplay === "analytics" &&
-                        <Analytics />
+                        <Analytics gymList={locations} locationId={selectedLocation}/>
                     }
                     {user.id && componentToDisplay === "upcomingClasses" &&
                         <UpcomingClasses enrolledClasses={enrolledClasses} />
                     }
                     {user.id && componentToDisplay === "pastActivity" &&
-                        <PastActivity enrolledClasses={enrolledClasses} />
+                        <PastActivity pastActivity={pastActivity} />
                     }
                     {user.id && componentToDisplay === "logActivity" &&
                         <LogActivity />

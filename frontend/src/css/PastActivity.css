@@ -1,0 +1,6 @@
+.table-container {
+    display: flex;
+    justify-content: center;
+    padding: 0 20px; /* Adjust the gap on the left and right as needed */
+  }
+  

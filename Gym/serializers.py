@@ -5,3 +5,8 @@ class LocationSerializer(ModelSerializer):
     class Meta:
         model = Location
         fields = '__all__'
+
+class EquipmentSerializer(ModelSerializer):
+    class Meta:
+        model = Equipment
+        fields = '__all__'

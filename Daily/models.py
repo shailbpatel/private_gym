@@ -33,3 +33,4 @@ class GymUsage(models.Model):
         'Daily.Entry', on_delete=models.DO_NOTHING)
     equipment = models.ForeignKey(
         'Gym.Equipment', on_delete=models.DO_NOTHING)
+    hours = models.IntegerField(default=0)
