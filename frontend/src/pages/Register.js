@@ -164,7 +164,7 @@ function Register() {
                                     <button 
                                         disabled={isSubmitting}
                                         type="submit"
-                                        className="btn btn-primary btn-block">Register Now
+                                        className="btn btn-warning btn-block">Register Now
                                     </button>
                                     <p 
                                         className="text-center">Have already an account <Link to="/">Login here</Link>

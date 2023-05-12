@@ -50,12 +50,12 @@ function EnrollNewMember(props) {
         </div>
       }
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
+        <div className="form-group" style={{width: 400 + "px"}}>
           <label htmlFor="phoneInput">Phone:</label>
           <input type="tel" className="form-control" id="phoneInput" placeholder="Enter phone" value={phone} onChange={e => setPhone(e.target.value)} />
         </div>
-        <div className="form-group">
-          <label htmlFor="plan">Membership Plan</label>
+        <div className="form-group" style={{width: 400 + "px"}}>
+          <label htmlFor="plan">Membership Plan:</label>
           <select className="form-control" id="plan" value={props.plans[selectedPlanId]} onChange={handlePlanChange}>
             <option value="">Select Plan</option>
             {props.plans.map((plan) => (
@@ -64,7 +64,7 @@ function EnrollNewMember(props) {
           </select>
         </div>
         <p></p>
-        <button type="submit" className="btn btn-primary">Enroll</button>
+        <button type="submit" className="btn btn-warning">Enroll</button>
       </form>
     </div>
   )

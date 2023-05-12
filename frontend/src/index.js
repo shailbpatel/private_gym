@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './css/index.css';
+import './css/App.css';
+import './css/Classes.css';
+import './css/Dashboard.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
