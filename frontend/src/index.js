@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios';
  
 const root = ReactDOM.createRoot(document.getElementById('root'));
-axios.defaults.baseURL = 'http://127.0.0.1:8000/';
+axios.defaults.baseURL = 'http://127.0.0.1:8020/';
  
 root.render(
   <React.StrictMode>
