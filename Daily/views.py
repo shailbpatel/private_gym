@@ -65,7 +65,7 @@ def log_activity(request):
         return JsonResponse({'success': False, 'error': 'Equipment not found'})
     if user.role == 2:
         return JsonResponse({'success': False, 'error': 'User is not a member'})
-    last_entry = Entry.objects.filter(user=user, location=location).order_by('-checkin_time').first()
+    last_entry = Entry.objects.filter(user=user).order_by('-checkin_time').first()
     if not last_entry or last_entry.has_checked_out:
         return JsonResponse({'success': False, 'error': 'User is not checked in at this location'}, status=status.HTTP_400_BAD_REQUEST)
     try:
