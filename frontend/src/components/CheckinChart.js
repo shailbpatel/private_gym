@@ -6,6 +6,7 @@ import axios from 'axios';
 // import AuthContext from "../context/AuthContext";
 import { Container, Form } from "semantic-ui-react";
 import { FlexboxGrid, SelectPicker, DateRangePicker } from 'rsuite';
+import {Image} from "@chakra-ui/react";
 Chart.register({ id: 'category', type: 'category', ticks: { align: 'center' } });
 
 const selectOption = [
@@ -253,6 +254,7 @@ class CheckinChart extends Component {
         return (<>
 
             <Container style={{ width: "620px" , margin:"20px"}}>
+                <Image align='center-right' src='./gym_enrollment.svg' h="5%" w="30%"/>
             <h4 className='text-center'>Visitors count</h4>
                 <Form>
                     <div>

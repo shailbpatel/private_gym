@@ -12,7 +12,7 @@ function Analytics(props) {
       }));
 
     return(
-        <div className="d-flex">
+        <div className="nav flex-column align-content-center">
         <CheckinChart gymList={convertedData} locationId={props.locationId}/>
         <HoursInGym gymList={convertedData} locationId={props.locationId}/>
         <EnrollmentChart gymList={convertedData} locationId={props.locationId}/>
