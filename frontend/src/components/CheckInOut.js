@@ -65,7 +65,7 @@ function CheckInOut(props) {
 
   return (
     <div className="container" style={{width: 400 + "px"}}>
-        <Image src='./San_Jose_State_University_logo.svg' h="80%" w="80%"/>
+        <Image src='./gym_enroll.svg' h="10%" w="80%"/>
       {successMessage &&
         <div className="alert alert-success" role="alert">
           {successMessage}

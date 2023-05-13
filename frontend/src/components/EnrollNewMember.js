@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import {Image} from "@chakra-ui/react";
 
 function EnrollNewMember(props) {
   const [phone, setPhone] = useState('')
@@ -38,35 +39,39 @@ function EnrollNewMember(props) {
   }
 
   return(
-    <div className="container">
-      {successMessage &&
-        <div className="alert alert-success" role="alert">
-          {successMessage}
-        </div>
-      }
-      {errorMessage &&
-        <div className="alert alert-danger" role="alert">
-          {errorMessage}
-        </div>
-      }
-      <form onSubmit={handleSubmit}>
-        <div className="form-group" style={{width: 400 + "px"}}>
-          <label htmlFor="phoneInput">Phone:</label>
-          <input type="tel" className="form-control" id="phoneInput" placeholder="Enter phone" value={phone} onChange={e => setPhone(e.target.value)} />
-        </div>
-        <div className="form-group" style={{width: 400 + "px"}}>
-          <label htmlFor="plan">Membership Plans</label>
-          <select className="form-control" id="plan" value={props.plans[selectedPlanId]} onChange={handlePlanChange}>
-            <option value="">Select Plan</option>
-            {props.plans.map((plan) => (
-              <option key={plan.name} value={plan.id}>{plan.name}</option>
-            ))}
-          </select>
-        </div>
-        <p></p>
-        <button type="submit" className="btn btn-warning">Enroll</button>
-      </form>
-    </div>
+      <div className="d-flex justify-content-around">
+          <div>
+              {successMessage &&
+                  <div className="alert alert-success" role="alert">
+                      {successMessage}
+                  </div>
+              }
+              {errorMessage &&
+                  <div className="alert alert-danger" role="alert">
+                      {errorMessage}
+                  </div>
+              }
+              <form onSubmit={handleSubmit}>
+                  <div className="form-group" style={{width: 400 + "px"}}>
+                      <label htmlFor="phoneInput">Phone:</label>
+                      <input type="tel" className="form-control" id="phoneInput" placeholder="Enter phone" value={phone} onChange={e => setPhone(e.target.value)} />
+                  </div>
+                  <div className="form-group" style={{width: 400 + "px"}}>
+                      <label htmlFor="plan">Membership Plans</label>
+                      <select className="form-control" id="plan" value={props.plans[selectedPlanId]} onChange={handlePlanChange}>
+                          <option value="">Select Plan</option>
+                          {props.plans.map((plan) => (
+                              <option key={plan.name} value={plan.id}>{plan.name}</option>
+                          ))}
+                      </select>
+                  </div>
+                  <p></p>
+                  <button type="submit" className="btn btn-warning">Enroll</button>
+              </form>
+          </div>
+          <Image align='center-right' src='./gym_enrollment.svg' h="5%" w="30%"/>
+      </div>
+
   )
 }
    
