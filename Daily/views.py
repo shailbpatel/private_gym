@@ -59,7 +59,10 @@ def log_activity(request):
     user = request.user
     equipment_name = request.data.get('equipment')
     hours = request.data.get('hours')
-    equipment = get_object_or_404(Equipment, name=equipment_name)
+    try:
+        equipment = Equipment.objects.get(name=equipment_name)
+    except:
+        return JsonResponse({'success': False, 'error': 'Equipment not found'}, status=status.HTTP_404_BAD_REQUEST)
     if user.role == 2:
         return JsonResponse({'success': False, 'error': 'User is not a member'}, status=status.HTTP_400_BAD_REQUEST)
     last_entry = Entry.objects.filter(user=user, location=location).order_by('-checkin_time').first()
