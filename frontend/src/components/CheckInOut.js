@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {Image} from "@chakra-ui/react";
 
 function CheckInOut(props) {
   const [phone, setPhone] = useState('');
@@ -63,7 +64,8 @@ function CheckInOut(props) {
     }
 
   return (
-    <div className="container">
+    <div className="container" style={{width: 400 + "px"}}>
+        <Image src='./San_Jose_State_University_logo.svg' h="80%" w="80%"/>
       {successMessage &&
         <div className="alert alert-success" role="alert">
           {successMessage}
@@ -75,14 +77,15 @@ function CheckInOut(props) {
         </div>
       }
       <form>
+
         <div className="form-group" style={{width: 400 + "px"}}>
-          <label htmlFor="phoneInput">Phone:</label>
+          <label htmlFor="phoneInput">Member's Phone Number:</label>
           <input type="tel" className="form-control" id="phoneInput" placeholder="Enter phone" value={phone} onChange={e => setPhone(e.target.value)} />
         </div>
         <p></p>
-        <button type="submit" className="btn btn-warning" onClick={handleCheckIn}>Check In</button>
+        <button type="submit" className="btn btn-success" onClick={handleCheckIn}>Check In</button>
         &nbsp;
-        <button type="submit" className="btn btn-outline-warning" onClick={handleCheckOut}>Check Out</button>
+        <button type="submit" className="btn btn-light" onClick={handleCheckOut}>Check Out</button>
       </form>
     </div>
   );

@@ -55,7 +55,7 @@ function EnrollNewMember(props) {
           <input type="tel" className="form-control" id="phoneInput" placeholder="Enter phone" value={phone} onChange={e => setPhone(e.target.value)} />
         </div>
         <div className="form-group" style={{width: 400 + "px"}}>
-          <label htmlFor="plan">Membership Plan:</label>
+          <label htmlFor="plan">Membership Plans</label>
           <select className="form-control" id="plan" value={props.plans[selectedPlanId]} onChange={handlePlanChange}>
             <option value="">Select Plan</option>
             {props.plans.map((plan) => (

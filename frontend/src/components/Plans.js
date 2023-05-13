@@ -9,7 +9,7 @@ function Plans({ plans }) {
       {plans.map((plan) => (
         <div className="col" key={plan.name}>
           <div className="card h-100">
-            <div className="card-header">{plan.name}</div>
+            <div className="card-header" style={{backgroundColor:'#24776e'}}>{plan.name}</div>
             <div className="card-body">
               {/* <h5 className="card-title">{plan.name}</h5> */}
               <p className="card-text">${plan.price} ({plan.duration} days)</p>

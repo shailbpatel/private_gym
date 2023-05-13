@@ -11,6 +11,8 @@ import Analytics from "../components/Analytics"
 import UpcomingClasses from "../components/UpcomingClasses"
 import PastActivity from "../components/PastActivity"
 import LogActivity from "../components/LogActivity"
+import {Image,Heading} from "@chakra-ui/react";
+import BottomNavBar from "../components/BottomNavigationBar";
 
 
 function Dashboard() {
@@ -148,12 +150,14 @@ function Dashboard() {
     return (
         <Layout>
            <div className="row justify-content-md-center">
-                <div className="col-12">
+                <div className="col-12" style={{backgroundColor:'#ebefcc'}}>
                     <nav className="navbar navbar-expand-lg navbar-dark fixed-top">
                         <div className="container-fluid">
-                            <a className="navbar-brand" href="#">Health Management System</a> 
+                            <Image className="navbar-brand" src='./san-jose-state-spartans.svg' h="5%" w="3%"/>
+                            <a className="navbar-brand" href="#">SPARTAN GYM</a>
                             <div className="d-flex">
                                 <ul className="navbar-nav mb-2 mb-lg-0">
+
                                     <li className="nav-item"><a className="nav-link" href="#about">About</a></li>
                                     <li className="nav-item"><a className="nav-link" href="#plans">Plans</a></li>
                                     <li className="nav-item">
@@ -177,15 +181,18 @@ function Dashboard() {
                         </div>
                     </nav>
                     <br />
-                    <h3 className="text-center welcome-text">Welcome, {user.fname ? user.fname : "Guest"}!</h3>
-                    
+
+                    <h3 className="text-center welcome-text"></h3>
+                    <div>
+                    <Heading fontSize='xl' textAlign="center">Hello Spartan {user.fname ? user.fname : "Guest"}!</Heading>
+                    </div>
                     <div className="text-center" style={{height: 100 + "px"}}>
-                        What would you like to do:&nbsp;
+                       Let's Catch Up :&nbsp;
                         <select className="border" value={componentToDisplay} onChange={handleSelectChange}>
                             <option value="homepage">Homepage</option>
                             {user.role === "admin" &&
                             <>
-                                <option value="checkInOut">Check-in/Check-out</option>
+                                <option value="checkInOut">Clock-in/Clock-out</option>
                                 <option value="enrollNewMember">Enroll as member</option>
                                 <option value="analytics">View analytics</option>
                             </>
@@ -203,16 +210,15 @@ function Dashboard() {
                     <br />
                     {componentToDisplay === "homepage" && 
                         <>
-                            <div id="about" style={{height: 280 + "px"}}>
-                                <AboutUs id="about"/>
-                            </div>
-                            
                             <div id="plans">
                                 <Plans plans={plans}/>
                             </div>
-                            
+                            <div id="about" style={{height: 280 + "px"}}>
+                                <AboutUs id="about"/>
+                            </div>
+
                             <div id="classes">
-                            <h2 className="text-center my-5">Upcoming Classes</h2>
+                            <h2 className="text-center my-5">Check Current Classes</h2>
                             <div className="container">
                             <div className="text-center">
                             <select
@@ -233,7 +239,7 @@ function Dashboard() {
                                 </select></div>
                             {selectedLocation ? (
                                 <div className="pb-5">
-                                    <div className="border p-3">
+                                    <div className="border p-3"  style={{ backgroundColor: '#74e8b4'}}>
                                     <Classes user={user} classes={classes} enrolledClasses={enrolledClasses} enrolledClassesCallback={enrolledClassesCallback}/>
                                     </div>
                                 </div>
@@ -263,6 +269,7 @@ function Dashboard() {
                     }
                 </div>
             </div>
+            <BottomNavBar/>
         </Layout>
     );
 }

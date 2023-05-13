@@ -41,17 +41,17 @@ function Classes(props) {
 
     return (
       <div className="card mb-3">
-        <div className="card-header" style={{ backgroundColor: '#443C68', color: 'white' }}>
+        <div className="card-header" style={{ backgroundColor: '#24776e', color: 'white' }}>
         {cls.name}
         </div>
-        <div className="card-body">
+        <div className="card-body" style={{ backgroundColor: '#40afd5' }}>
           <h5 className="card-title">{formatTime(cls.time)}</h5>
           <p className="card-text">
             <i className="bi bi-person instructor-name"></i> {instructorName}
           </p>
-          <p><i>spots left: {cls.spots_left}</i></p>
+          <p><i>Seats Available: {cls.spots_left}</i></p>
           {isEnrolled ? (
-          <h6 className="text-success">Already enrolled</h6>
+          <h6 className="text-success">Enrolled</h6>
         ) : (<>
           {props.user && props.user.role === "member" ? (
           <>
