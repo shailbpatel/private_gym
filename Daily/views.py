@@ -57,7 +57,7 @@ def check_out(request):
 @permission_classes([IsAuthenticated])
 def log_activity(request):
     user = request.user
-    equipment_name = request.data.get('equipment')
+    equipment_name = request.data.get('equipment_id')
     hours = request.data.get('hours')
     try:
         equipment = Equipment.objects.get(name=equipment_name)
