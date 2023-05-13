@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('Gym', '0001_initial'),
+        # ('Gym', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('Business', '0001_initial'),
     ]
