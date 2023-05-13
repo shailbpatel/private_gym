@@ -94,7 +94,7 @@ def get_classes_enrollment(request):
     },{
         'label': 'Enrollment by Hour',
         'data': byDayPeople(classes),
-        'backgroundColor': '#BC544b',
+        'backgroundColor': '#74b72e',
     }]
     response['dataByDay']['datasets'] = datasets
     
@@ -109,7 +109,7 @@ def get_classes_enrollment(request):
     {
         'label': 'Enrollment by Weekday',
         'data': byWeekdayPeople(classes),
-        'backgroundColor': '#BC544b',
+        'backgroundColor': '#74b72e',
     }]
     response['dataByWeekday']['datasets'] = datasets
     
@@ -123,7 +123,7 @@ def get_classes_enrollment(request):
     },{
         'label': 'Enrollment by Weekend',
         'data': byWeekendPeople(classes),
-        'backgroundColor': '#BC544b',
+        'backgroundColor': '#74b72e',
     }]
     response['dataByWeekend']['datasets'] = datasets
 
